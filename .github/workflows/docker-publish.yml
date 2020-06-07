@@ -45,10 +45,12 @@ jobs:
 
       - name: Image name
         run: |
-          echo "::set-env name=BRANCH_NAME::$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')"
+          export BRANCH_NAME=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
           
           # Use Docker `ubuntu` for the master branch
           [ "$BRANCH_NAME" == "master" ] && BRANCH_NAME=ubuntu
+          
+          echo "::set-env name=BRANCH_NAME::$BRANCH_NAME"
 
       - name: Build image
         run: |
