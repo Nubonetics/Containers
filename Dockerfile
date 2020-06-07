@@ -1,3 +1,3 @@
-FROM registry.gitlab.com/nubodev/binders:base
+FROM registry.gitlab.com/nubodev/binders:python
 
 CMD ["jupyter", "notebook"]
