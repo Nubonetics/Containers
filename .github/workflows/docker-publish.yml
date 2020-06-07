@@ -51,6 +51,9 @@ jobs:
           # Use `ubuntu` as the image name for the master branch
           [ "$IMAGE_NAME" == "master" ] && IMAGE_NAME=ubuntu
           
+          # Change all uppercase to lowercase
+          IMAGE_NAME=$(echo $IMAGE_NAME | tr '[A-Z]' '[a-z]')
+
           echo "::set-env name=IMAGE_NAME::$IMAGE_NAME"
 
       - name: Build image
