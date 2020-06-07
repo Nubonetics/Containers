@@ -49,7 +49,6 @@ jobs:
           
           # Use Docker `ubuntu` for the master branch
           [ "$BRANCH_NAME" == "master" ] && BRANCH_NAME=ubuntu
-          echo "::set-env name=BRANCH_NAME::$BRANCH_NAME"
 
       - name: Build image
         run: |
