@@ -45,17 +45,17 @@ jobs:
 
       - name: Image name
         run: |
-          export BRANCH_NAME=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          export IMAGE_NAME=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
           
           # Use Docker `ubuntu` for the master branch
-          [ "$BRANCH_NAME" == "master" ] && BRANCH_NAME=ubuntu
+          [ "$IMAGE_NAME" == "master" ] && IMAGE_NAME=ubuntu
           
-          echo "::set-env name=BRANCH_NAME::$BRANCH_NAME"
+          echo "::set-env name=IMAGE_NAME::$IMAGE_NAME"
 
       - name: Build image
         run: |
           echo "${BRANCH_NAME}"
-          docker build . --file Dockerfile --tag $BRANCH_NAME
+          docker build . --file Dockerfile --tag $IMAGE_NAME
 
       - name: Log into GitHub registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
@@ -63,15 +63,6 @@ jobs:
       - name: Push image to GitHub registry
         run: |
           
-          # Strip git ref prefix from version
-          IMAGE_NAME=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && IMAGE_NAME=$(echo $IMAGE_NAME | sed -e 's/^v//')
-
-          # Use Docker `ubuntu` for the master branch
-          [ "$IMAGE_NAME" == "master" ] && IMAGE_NAME=ubuntu
-
           IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
           VARSION=latest
 
@@ -93,15 +84,7 @@ jobs:
           
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-
-          # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-
-          # Use Docker `latest` tag convention
-          [ "$VERSION" == "master" ] && VERSION=latest
+          VERSION=latest
 
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
