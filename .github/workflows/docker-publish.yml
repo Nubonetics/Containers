@@ -45,16 +45,16 @@ jobs:
 
       - name: Image name
         run: |
+          # Use the branch name as the image name
           export IMAGE_NAME=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
           
-          # Use Docker `ubuntu` for the master branch
+          # Use `ubuntu` as the image name for the master branch
           [ "$IMAGE_NAME" == "master" ] && IMAGE_NAME=ubuntu
           
           echo "::set-env name=IMAGE_NAME::$IMAGE_NAME"
 
       - name: Build image
         run: |
-          echo "${BRANCH_NAME}"
           docker build . --file Dockerfile --tag $IMAGE_NAME
 
       - name: Log into GitHub registry
@@ -62,9 +62,7 @@ jobs:
 
       - name: Push image to GitHub registry
         run: |
-          
           IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
-          VARSION="latest"
 
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
@@ -74,6 +72,8 @@ jobs:
 
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
+        env:
+          VERSION: latest
 
       - name: Log into Docker Hub registry
         run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u nuboneticsadmin --password-stdin
@@ -84,10 +84,11 @@ jobs:
           
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-          VERSION="latest"
 
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
 
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
+        env:
+          VERSION: latest
