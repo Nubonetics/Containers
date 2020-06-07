@@ -52,7 +52,9 @@ jobs:
           echo "::set-env name=BRANCH_NAME::$BRANCH_NAME"
 
       - name: Build image
-        run: docker build . --file Dockerfile --tag $BRANCH_NAME
+        run: |
+          echo "${BRANCH_NAME}"
+          docker build . --file Dockerfile --tag $BRANCH_NAME
 
       - name: Log into GitHub registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
