@@ -64,7 +64,7 @@ jobs:
         run: |
           
           IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
-          VARSION=latest
+          VARSION="latest"
 
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
@@ -84,7 +84,7 @@ jobs:
           
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-          VERSION=latest
+          VERSION="latest"
 
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
