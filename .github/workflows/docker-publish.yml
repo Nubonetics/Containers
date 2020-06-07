@@ -45,9 +45,9 @@ jobs:
 
       - name: Image name
         run: |
-          IMAGE_NAME = ${GITHUB_REF##*/}
+          set-env IMAGE_NAME = ${GITHUB_REF##*/}
           if [ IMAGE_NAME -eq "master" ]; then 
-            IMAGE_NAME="ubuntu"  
+            set-env IMAGE_NAME="ubuntu"  
           fi
           echo $IMAGE_NAME
       
