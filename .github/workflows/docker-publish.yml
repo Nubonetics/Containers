@@ -45,14 +45,14 @@ jobs:
 
       - name: Image name
         run: |
-          echo ::set-env IMAGE_NAME = ${GITHUB_REF##*/}
-          if [ IMAGE_NAME -eq "master" ]; then 
-            echo ::set-env IMAGE_NAME="ubuntu"  
-          fi
-          echo $IMAGE_NAME
-      
+          echo "::set-env name=BRANCH_NAME::$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')"
+          
+          # Use Docker `ubuntu` for the master branch
+          [ "$BRANCH_NAME" == "master" ] && BRANCH_NAME=ubuntu
+          echo "::set-env name=BRANCH_NAME::$BRANCH_NAME"
+
       - name: Build image
-        run: docker build . --file Dockerfile --tag $IMAGE_NAME
+        run: docker build . --file Dockerfile --tag $BRANCH_NAME
 
       - name: Log into GitHub registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
@@ -84,7 +84,7 @@ jobs:
       - name: Log into Docker Hub registry
         run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u nuboneticsadmin --password-stdin
 
-      - name: Push image to GitHub registry
+      - name: Push image to Docker Hub registry
         run: |
           IMAGE_ID=nubonetics/$IMAGE_NAME
           
