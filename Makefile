@@ -40,5 +40,3 @@ enter:
 stop:
 	docker stop binder
 	docker rm binder
-
-
