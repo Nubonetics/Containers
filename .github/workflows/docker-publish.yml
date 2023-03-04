@@ -2,7 +2,7 @@ name: Docker
 
 on:
   push:
-    # Publish `master` as Docker `latest` image.
+    # Publish all branches.
     branches:
       - '*'
 
@@ -14,84 +14,18 @@ on:
   pull_request:
 
 jobs:
-  # Run tests.
-  # See also https://docs.docker.com/docker-hub/builds/automated-testing/
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Run tests
-        run: |
-          if [ -f docker-compose.test.yml ]; then
-            docker-compose --file docker-compose.test.yml build
-            docker-compose --file docker-compose.test.yml run sut
-          else
-            docker build . --file Dockerfile
-          fi
 
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
-  push:
-    # Ensure test job passes before pushing image.
-    needs: test
-
+  build-push:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
 
     steps:
       - uses: actions/checkout@v2
-
-      - name: Image name
-        run: |
-          # Use the branch name as the image name
-          export IMAGE_NAME=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          
-          # Use `ubuntu` as the image name for the master branch
-          [ "$IMAGE_NAME" == "master" ] && IMAGE_NAME=ubuntu
-          
-          # Change all uppercase to lowercase
-          IMAGE_NAME=$(echo $IMAGE_NAME | tr '[A-Z]' '[a-z]')
-          
-          echo "::set-env name=IMAGE_NAME::$IMAGE_NAME"
-
-      - name: Build image
-        run: |
-          docker build . --file Dockerfile --tag $IMAGE_NAME
-
-      - name: Log into GitHub registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
-
-      - name: Push image to GitHub registry
-        run: |
-          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
-
-          # Change all uppercase to lowercase
-          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-
-          echo IMAGE_ID=$IMAGE_ID
-          echo VERSION=$VERSION
-
-          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
-          docker push $IMAGE_ID:$VERSION
-        env:
-          VERSION: latest
 
       - name: Log into Docker Hub registry
         run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u nuboneticsadmin --password-stdin
 
-      - name: Push image to Docker Hub registry
+      - name: Build and push image to Docker Hub registry
         run: |
-          IMAGE_ID=nubonetics/$IMAGE_NAME
-          
-          # Change all uppercase to lowercase
-          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-
-          echo IMAGE_ID=$IMAGE_ID
-          echo VERSION=$VERSION
-
-          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
-          docker push $IMAGE_ID:$VERSION
-        env:
-          VERSION: latest
+          make build push
