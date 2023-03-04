@@ -33,7 +33,7 @@ run:
 run-cuda:
 	docker stop binder || true && docker rm binder || true
 	docker stop binder-nvidia || true && docker rm binder-nvidia || true
-	docker run --name binder-nvidia -d nubonetics/volumes:10.2-runtime-ubuntu18.04
+	docker run --name binder-nvidia -d nubonetics/volumes:cudagl-10.2-runtime-ubuntu18.04
 	docker run --privileged -h  binder --name binder -d --cap-add=SYS_PTRACE \
 	   --net=host \
 	   --add-host binder:127.0.0.1 \
