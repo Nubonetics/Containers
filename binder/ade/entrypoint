@@ -4,11 +4,10 @@
 # SPDX-License-Identifier: Apache 2.0
 #
 # ref: https://gitlab.com/ApexAI/AutowareAuto/-/blob/master/tools/ade_image/entrypoint
+#
+# Modified by Nubonetics Solutions Inc.
 
 set -e
-
-source "/opt/ros/$ROS_DISTRO/setup.bash"
-
 
 if [[ -n "$GITLAB_CI" ]]; then
     exec "$@"
