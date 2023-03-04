@@ -16,6 +16,7 @@ run:
 	   --env GROUP=${USER} \
 	   --env USER_ID=`id -u ${USER}` \
 	   --env GROUP_ID=`getent group ${USER} | awk -F: '{printf $$3}'` \
+	   --env TIMEZONE=`cat /etc/timezone` \
 	   --env EMAIL \
 	   --env GIT_AUTHOR_EMAIL \
 	   --env GIT_AUTHOR_NAME \
@@ -34,7 +35,7 @@ run:
 	   ${DOCKER_IMAGE_NAME}
 
 enter:
-	docker exec -it -u ${USER} -w /home/${USER} binder /bin/bash
+	docker exec -it -u ${USER} -w /home/${USER}/$${PWD##*/} binder /bin/bash
 
 stop:
 	docker stop binder
