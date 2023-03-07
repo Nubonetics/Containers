@@ -25,12 +25,15 @@ run:
 	   --env SSH_AUTH_SOCK \
 	   --env TERM \
 	   --env DISPLAY \
+	   --env SDL_VIDEODRIVER=x11 \
 	   --env VIDEO_GROUP_ID=`getent group video | awk -F: '{printf $$3}'` \
 	   --volume $${PWD%/*}:/home/${USER} \
+	   --volume /tmp/.X11-unix/:/tmp/.X11-unix/ \
+	   --volume /usr/share/vulkan/icd.d:/usr/share/vulkan/icd.d \
 	   --volume /dev/dri:/dev/dri \
 	   --gpus all \
 	   --env NVIDIA_VISIBLE_DEVICES=all \
-	   --env NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics,display \
+	   --env NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics,display,video \
 	   --env LD_LIBRARY_PATH=/usr/local/nvidia/lib64 \
 	   ${DOCKER_IMAGE_NAME}
 	xhost +local:'binder'
