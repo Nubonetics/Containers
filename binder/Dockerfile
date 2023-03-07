@@ -1,4 +1,4 @@
-FROM nvidia/vulkan:1.1.121-cuda-10.1-beta.1-ubuntu18.04
+FROM nvidia/vulkan:1.3-470
 
 RUN rm /etc/apt/sources.list.d/cuda.list || true && \
     rm /etc/apt/sources.list.d/nvidia-ml.list || trueapt-key del 7fa2af80 && \
