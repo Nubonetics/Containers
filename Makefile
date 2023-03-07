@@ -60,6 +60,7 @@ run-cuda:
 	   --env NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics,display \
 	   --env LD_LIBRARY_PATH=/usr/local/nvidia/lib64 \
 	   ${DOCKER_IMAGE_NAME}
+	xhost +local:'binder'
 
 enter:
 	docker exec -it -u ${USER} -w /home/${USER}/$${PWD##*/} binder /bin/bash

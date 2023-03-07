@@ -1,4 +1,4 @@
-FROM nvidia/cudagl:10.2-devel-ubuntu18.04
+FROM ubuntu:18.04
 
 # Install basic requirements
 RUN apt-get update && \
