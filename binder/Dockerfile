@@ -1,4 +1,4 @@
-FROM nvidia/cudagl:10.2-devel-ubuntu18.04
+FROM nvidia/vulkan:1.1.121-cuda-10.1-beta.1-ubuntu18.04
 
 # Install basic requirements
 RUN apt-get update && \
