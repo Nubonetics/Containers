@@ -1,4 +1,9 @@
 DOCKER_IMAGE_NAME=$(shell cat IMAGE_NAME)
+UID=$(shell id -u $$USER)
+GID=$(shell getent group ${USER} | awk -F: '{printf $$3}')
+ifeq ($(UID),1000)
+  USER=ue4
+endif
 
 build:
 	cd binder && docker build -t ${DOCKER_IMAGE_NAME} .
@@ -14,8 +19,8 @@ run:
 	   --env HOME=/home/${USER} \
 	   --env USER=${USER} \
 	   --env GROUP=${USER} \
-	   --env USER_ID=`id -u ${USER}` \
-	   --env GROUP_ID=`getent group ${USER} | awk -F: '{printf $$3}'` \
+	   --env USER_ID=${UID} \
+	   --env GROUP_ID=${GID} \
 	   --env TIMEZONE=`cat /etc/timezone` \
 	   --env EMAIL \
 	   --env GIT_AUTHOR_EMAIL \
@@ -27,7 +32,7 @@ run:
 	   --env DISPLAY \
 	   --env SDL_VIDEODRIVER=x11 \
 	   --env VIDEO_GROUP_ID=`getent group video | awk -F: '{printf $$3}'` \
-	   --volume $${PWD%/*}:/home/${USER} \
+	   --volume $${PWD%/*}:/home/${USER}/workspace \
 	   --volume /tmp/.X11-unix/:/tmp/.X11-unix/ \
 	   --volume /usr/share/vulkan/icd.d:/usr/share/vulkan/icd.d \
 	   --volume /dev/dri:/dev/dri \
@@ -39,7 +44,7 @@ run:
 	xhost +local:'binder'
 
 enter:
-	docker exec -it -u ${USER} -w /home/${USER}/$${PWD##*/} binder /bin/bash
+	docker exec -it -u ${USER} -w /home/${USER} binder /bin/bash
 
 stop:
 	docker stop binder

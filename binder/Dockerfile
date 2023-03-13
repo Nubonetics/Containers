@@ -1,14 +1,8 @@
-FROM nvidia/vulkan:1.1.121-cuda-10.1-beta.1-ubuntu18.04
+FROM ghcr.io/epicgames/unreal-engine:dev-4.27
 
-RUN rm /etc/apt/sources.list.d/cuda.list || true && \
-    rm /etc/apt/sources.list.d/nvidia-ml.list || trueapt-key del 7fa2af80 && \
-    apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub && \
-    apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/7fa2af80.pub
-
+USER root
 # Install basic requirements
 RUN apt-get update && \
-    echo 'Etc/UTC' > /etc/timezone && \
-    ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
     software-properties-common \
     sudo locales apt-utils clang wget \
