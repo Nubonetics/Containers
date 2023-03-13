@@ -1,6 +1,6 @@
 DOCKER_IMAGE_NAME=$(shell cat IMAGE_NAME)
 UID=$(shell id -u $$USER)
-GID=$(shell getent group ${USER} | awk -F: '{printf $$3}')
+GID=$(shell getent group $$USER | awk -F: '{printf $$3}')
 ifeq ($(UID),1000)
   USER=ue4
 endif
