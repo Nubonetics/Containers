@@ -49,3 +49,6 @@ enter:
 stop:
 	docker stop binder
 	docker rm binder
+
+unreal-editor:
+	/home/ue4/UnrealEngine/Engine/Binaries/Linux/UnrealEditor
