@@ -44,7 +44,7 @@ run:
 	xhost +local:'binder'
 
 enter:
-	docker exec -it -u ${USER} -w /home/${USER} binder /bin/bash
+	docker exec -it -u ${USER} -w /home/${USER}/workspace binder /bin/bash
 
 stop:
 	docker stop binder
