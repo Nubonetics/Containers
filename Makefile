@@ -1,7 +1,7 @@
 DOCKER_IMAGE_NAME=$(shell cat IMAGE_NAME)
 
 build:
-	cd binder && docker build -t ${DOCKER_IMAGE_NAME} .
+	docker build -t ${DOCKER_IMAGE_NAME} -f binder/Dockerfile . 
 
 push:
 	docker push ${DOCKER_IMAGE_NAME}

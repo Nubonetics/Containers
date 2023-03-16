@@ -1,5 +1,7 @@
 FROM nvidia/vulkan:1.3-470
 
+COPY  ./src/UnrealEngine /opt/UnrealEngine
+
 RUN rm /etc/apt/sources.list.d/cuda.list || true && \
     apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub
 
@@ -27,8 +29,8 @@ RUN apt-get update && \
 # Enable sudo for all users 
 RUN echo 'ALL ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-COPY ade/env.sh /etc/profile.d/ade_env.sh
-COPY ade/entrypoint /tmp/ade_entrypoint
+COPY binder/ade/env.sh /etc/profile.d/ade_env.sh
+COPY binder/ade/entrypoint /tmp/ade_entrypoint
 
 ENTRYPOINT ["/tmp/ade_entrypoint"]
 CMD ["/bin/sh", "-c", "trap 'exit 147' TERM; tail -f /dev/null & wait ${!}"]
