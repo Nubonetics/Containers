@@ -1,5 +1,7 @@
 FROM nvidia/cuda:12.1.0-devel-ubuntu22.04
 
+ARG NVIDIA_DRIVER_VERSION=525
+
 # Install basic requirements
 RUN apt-get update && \
     echo 'Etc/UTC' > /etc/timezone && \
@@ -16,8 +18,9 @@ RUN apt-get update && \
     lsb-release \
     gettext-base \
     keyboard-configuration \
-    nvidia-utils-525 \
-    vulkan-tools && \
+    nvidia-utils-${NVIDIA_DRIVER_VERSION} \
+    libdrm-amdgpu1 libdrm-common libdrm2 libllvm15 libvulkan1 libx11-xcb1 libxcb-dri3-0 \
+    libxcb-present0 libxcb-randr0 libxcb-sync1 libxcb-xfixes0 libxshmfence1 mesa-vulkan-drivers vulkan-tools && \
     add-apt-repository ppa:git-core/ppa && \
     apt-get update && \
     apt-get install -y git && \
