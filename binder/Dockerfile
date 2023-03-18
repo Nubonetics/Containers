@@ -6,7 +6,7 @@ RUN apt-get update && \
     ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
     software-properties-common \
-    sudo locales apt-utils clang wget \
+    sudo locales apt-utils clang wget git gnupg2 \
     build-essential procps curl file tzdata \
     python3-pip \
     curl \
@@ -15,10 +15,11 @@ RUN apt-get update && \
     sharutils \
     lsb-release \
     gettext-base \
-    keyboard-configuration && \
-    add-apt-repository ppa:git-core/ppa && \
-    apt-get update && \
-    apt-get install -y git wget gnupg2 && \
+    keyboard-configuration \
+    libglu1-mesa-dev \
+	pulseaudio \
+    x11-xserver-utils \
+	xdg-user-dirs && \
     rm -rf /var/lib/apt/lists/*
 
 RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-ubuntu2204.pin && \
