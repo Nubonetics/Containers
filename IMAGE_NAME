@@ -1,1 +1,1 @@
-ghcr.io/nubonetics/ubuntu:22.04-vulkan
+ghcr.io/nubonetics/cuda:12.1.0-devel-ubuntu22.04

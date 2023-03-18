@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM nvidia/cuda:12.1.0-devel-ubuntu22.04
 
 # Install basic requirements
 RUN apt-get update && \
@@ -18,18 +18,8 @@ RUN apt-get update && \
     keyboard-configuration && \
     add-apt-repository ppa:git-core/ppa && \
     apt-get update && \
-    apt-get install -y git wget gnupg2 && \
+    apt-get install -y git && \
     rm -rf /var/lib/apt/lists/*
-
-RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-ubuntu2204.pin && \
-    mv cuda-ubuntu2204.pin /etc/apt/preferences.d/cuda-repository-pin-600 && \
-    wget https://developer.download.nvidia.com/compute/cuda/12.1.0/local_installers/cuda-repo-ubuntu2204-12-1-local_12.1.0-530.30.02-1_amd64.deb && \
-    dpkg -i cuda-repo-ubuntu2204-12-1-local_12.1.0-530.30.02-1_amd64.deb && \
-    cp /var/cuda-repo-ubuntu2204-12-1-local/cuda-*-keyring.gpg /usr/share/keyrings/ && \
-    apt-get update && \
-    apt-get -y install cuda && \
-    apt-get -y install vulkan-tools && \
-    rm -rf /var/lib/apt/lists/* cuda-repo-ubuntu2204-12-1-local_12.1.0-530.30.02-1_amd64.deb 
 
 # Enable sudo for all users 
 RUN echo 'ALL ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
