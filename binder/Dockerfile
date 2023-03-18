@@ -16,7 +16,7 @@ RUN apt-get update && \
     lsb-release \
     gettext-base \
     keyboard-configuration \
-    nvidia-utils-530 \
+    nvidia-utils-525 \
     vulkan-tools && \
     add-apt-repository ppa:git-core/ppa && \
     apt-get update && \
