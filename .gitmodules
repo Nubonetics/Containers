@@ -1,3 +1,0 @@
-[submodule "src/UnrealEngine"]
-	path = src/UnrealEngine
-	url = git@github.com:EpicGames/UnrealEngine.git
