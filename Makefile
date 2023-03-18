@@ -1,5 +1,8 @@
 DOCKER_IMAGE_NAME=$(shell cat IMAGE_NAME)
 
+UnrealEngine:
+	cd src; git clone git@github.com:EpicGames/UnrealEngine.git; cd UnrealEngine; git checkout tags/5.1.1-release
+
 build:
 	docker build -t ${DOCKER_IMAGE_NAME} -f binder/Dockerfile . 
 
