@@ -7,4 +7,5 @@ RUN cd /opt/UnrealEngine && \
     rm .git && mkdir -p .git && \
     cd Engine && ./Build/BatchFiles/Linux/SetupToolchain.sh && cd .. && \
     ./GenerateProjectFiles.sh && \
-    make
+    make && \
+    chmod -R 777 /opt/UnrealEngine 
