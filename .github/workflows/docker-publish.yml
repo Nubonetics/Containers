@@ -22,6 +22,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: true
 
       - name: Log into Docker Hub registry
         run: echo "${{ secrets.GHCR_TOKEN }}" | docker login -u bsamadi ghcr.io --password-stdin
