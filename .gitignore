@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 
 # UnrealEngine
-src/UnrealEngine/*
+src/UnrealEngine
