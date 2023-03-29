@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM lukechilds/dockerpi
 
 # Install basic requirements
 RUN apt-get update && \
