@@ -7,6 +7,9 @@ build:
 push:
 	docker push ${DOCKER_IMAGE_NAME}
 
+pull:
+	docker pull ${DOCKER_IMAGE_NAME}
+
 run:
 	docker stop binder || true && docker rm binder || true
 	docker run --privileged -h  binder --name binder -d --cap-add=SYS_PTRACE \
