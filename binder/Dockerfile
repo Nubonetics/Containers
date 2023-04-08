@@ -16,7 +16,7 @@ RUN apt-get update && \
     libglu1-mesa-dev \
 	pulseaudio \
     x11-xserver-utils \
-	xdg-user-dirs && \
+	xdg-user-dirs \
     vulkan-tools && \
     rm -rf /var/lib/apt/lists/*
 
