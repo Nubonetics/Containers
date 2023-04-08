@@ -5,10 +5,9 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
     software-properties-common \
     sudo locales apt-utils clang wget git gnupg2 \
-    build-essential procps curl file tzdata \
+    build-essential procps file tzdata \
     python3-pip \
     curl \
-    gedit \
     gnupg2 \
     sharutils \
     lsb-release \
