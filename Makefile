@@ -26,6 +26,10 @@ run:
 	   --env TERM \
 	   --env DISPLAY \
 	   --env VIDEO_GROUP_ID=`getent group video | awk -F: '{printf $$3}'` \
+	   --gpus all \
+	   --env NVIDIA_VISIBLE_DEVICES=all \
+	   --env NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics,display \
+	   --env LD_LIBRARY_PATH=/usr/local/nvidia/lib64 \
 	   --volume $${PWD%/*}:/home/${USER} \
 	   --volume /dev/dri:/dev/dri \
 	   ${DOCKER_IMAGE_NAME}
