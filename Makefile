@@ -43,3 +43,25 @@ enter:
 stop:
 	docker stop binder || true && docker rm binder || true
 	docker stop binder-nvidia || true && docker rm binder-nvidia || true
+
+test-nvidia-smi:
+	docker run -it --rm \
+	   --volume /tmp/.X11-unix/:/tmp/.X11-unix/ \
+	   --volume /usr/share/vulkan/icd.d:/usr/share/vulkan/icd.d \
+	   --volume /dev/dri:/dev/dri \
+	   --gpus all \
+	   --env NVIDIA_VISIBLE_DEVICES=all \
+	   --env NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics,display,video \
+	   --env LD_LIBRARY_PATH=/usr/local/nvidia/lib64 \
+	   ubuntu:22.04 nvidia-smi
+	
+test-vulkaninfo:
+	docker run -it --rm \
+	   --volume /tmp/.X11-unix/:/tmp/.X11-unix/ \
+	   --volume /usr/share/vulkan/icd.d:/usr/share/vulkan/icd.d \
+	   --volume /dev/dri:/dev/dri \
+	   --gpus all \
+	   --env NVIDIA_VISIBLE_DEVICES=all \
+	   --env NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics,display,video \
+	   --env LD_LIBRARY_PATH=/usr/local/nvidia/lib64 \
+	   ubuntu:22.04 bash -c "apt update; apt install -y vulkan-tools; vulkaninfo"
