@@ -1,5 +1,4 @@
 DOCKER_IMAGE_NAME=$(shell cat IMAGE_NAME)
-DOCKER_DISPLAY=$(shell grep -q "microsoft-standard" /proc/version && echo $(cat /etc/resolv.conf | grep nameserver | awk '{print $2}')${DISPLAY} || echo ${DISPLAY})
 
 build:
 	cd binder && docker build -t ${DOCKER_IMAGE_NAME} .
@@ -25,7 +24,7 @@ run:
 	   --env GIT_COMMITTER_NAME \
 	   --env SSH_AUTH_SOCK \
 	   --env TERM \
-	   --env DISPLAY=${DOCKER_DISPLAY} \
+	   --env DISPLAY \
 	   --env VIDEO_GROUP_ID=`getent group video | awk -F: '{printf $$3}'` \
 	   --volume $${PWD%/*}:/home/${USER} \
 	   --volume /dev/dri:/dev/dri \
