@@ -20,6 +20,9 @@ RUN apt-get update && \
     vulkan-tools && \
     rm -rf /var/lib/apt/lists/*
 
+# Install Python requirements for PX4
+RUN pip3 install kconfiglib jinja2 pyros-genmsg future
+
 # Enable sudo for all users 
 RUN echo 'ALL ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
