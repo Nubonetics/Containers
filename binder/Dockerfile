@@ -1,4 +1,4 @@
-FROM px4io/px4-dev-ros-melodic:2021-12-11
+FROM px4io/px4-dev-ros-noetic:2022-08-12
 
 # Install basic requirements
 RUN apt-get update && \
