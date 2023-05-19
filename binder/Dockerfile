@@ -41,6 +41,7 @@ ARG PYTHON_VERSION=3.8
 
 RUN apt -y update \
     && apt -y --no-install-recommends install software-properties-common \
+        sudo locales apt-utils clang wget \
     && add-apt-repository -y ppa:deadsnakes/ppa \
     && apt -y update \
     && apt -y upgrade \
