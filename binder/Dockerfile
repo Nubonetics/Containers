@@ -1,4 +1,4 @@
-FROM ghcr.io/epicgames/unreal-engine:dev-5.1
+FROM ghcr.io/epicgames/unreal-engine:dev-5.2
 
 USER root
 # Install basic requirements
