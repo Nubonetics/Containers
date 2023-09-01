@@ -15,7 +15,9 @@ RUN apt-get update && \
     sharutils \
     lsb-release \
     gettext-base \
-    keyboard-configuration && \
+    keyboard-configuration \
+    libvulkan1 \
+    vulkan-tools && \
     add-apt-repository ppa:git-core/ppa && \
     apt-get update && \
     apt-get install -y git && \
